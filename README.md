@@ -22,20 +22,20 @@ Let $C$ be the set of categories and for each $c\in C$ define $S_c$ as the set o
 ## Generating the data
 
 ### Users
-For each country $l\in L$ and gender $g\in G$ we determine an \textit{age scale} parameter $\lambda_{l,g}$ by random sampling from $\mathcal{N}(6,4)$ and taking its absolute value, in order to control the spread of the age distribution. After this, a \textit{preference} parameter $\tau\sim\text{Dirichlet}(1_{\text{\#} L})$ is introduced to determine the number of users per location. In addition to this, \textit{gender inbalance} per each location $l\in L$ is modeled by $i_{l}\sim\mathcal{N}(0.5,0.01)$. Hence, the vector $n\sim\text{Multinomial}(n_{\text{u}},\tau)$ determines the number of users per location, and if $n_j$ is related to location $l$ then $n_{l,\text{m}} = \lfloor n_ji_l\rfloor$
+For each country $l\in L$ and gender $g\in G$ we determine an \textit{age scale} parameter $\lambda_{l,g}$ by random sampling from $\mathcal{N}(6,4)$ and taking its absolute value, in order to control the spread of the age distribution. After this, a \textit{preference} parameter $\tau\sim\text{Dirichlet}(1_{|L|})$ is introduced to determine the number of users per location. In addition to this, \textit{gender inbalance} per each location $l\in L$ is modeled by $i_{l}\sim\mathcal{N}(0.5,0.01)$. Hence, the vector $n\sim\text{Multinomial}(n_{\text{u}},\tau)$ determines the number of users per location, and if $n_j$ is related to location $l$ then $n_{l,\text{m}} = \lfloor n_ji_l\rfloor$
 determines the number of males in $l$ and $n_{l,\text{f}} = n_j - n_{l,\text{m}}$ determines the number of females in $l$. Finally, we model the age distribution for each location $l\in L$ and gender $g\in G$ by random sampling $n_{l,g}$ observations from $\text{Exponential}(18,\lambda_{l,g})$ and taking its absolute value (note that the displacement parameter is set to 18, as we assume that only adults can be registered to the store). Such generated values fill the users table as follows.
 
-Each users table row consists of a tuple $(\text{user ID, location, gender, age})$ where user ID's are randomly assigned without replacement from $\{1,\dots,n_{\text{u}}\}$.
+Each users table row consists of a tuple $(\text{user ID, location, gender, age})$ where user IDs are randomly assigned without replacement from $\{1,\dots,n_{\text{u}}\}$.
 
 ### Vendors
 The vendors table is generated with exactly the same procedure than the users table, but with the addition of a 5-star rating value for each vendor. The number of stars is assigned randomly from $\{1,\dots,5\}$ under a $\text{Categorical}((0.05, 0.1, 0.25, 0.3, 0.3))$ distribution.
 
-Each vendors table row consists of a tuple $(\text{vendor ID, location, gender, age, stars})$ where vendor ID's are randomly assigned without replacement from $\{1,\dots,n_{\text{v}}\}$.
+Each vendors table row consists of a tuple $(\text{vendor ID, location, gender, age, stars})$ where vendor IDs are randomly assigned without replacement from $\{1,\dots,n_{\text{v}}\}$.
 
 ### Products
-For each $c\in C$ define $\kappa_c$ as the mean price of products in category $c$. Now, for each subcategory $s\in S_c$ let $\bar\kappa_{c,s}\sim\text{Gamma}(\kappa_c/20,1/20)$ be the mean price of products in subcategory $s$. In analog to the users and vendors tables, we define a \textit{preference} parameter $\tau\sim\text{Dirichlet}\left(1_{\sum_{c\in C}\text{\#} S_c}\right)$ to determine the number of products per subcategory with the vector $n\sim\text{Multinomial}(n_{\text{p}},\tau)$. Finally, for each $c\in C$ and $s\in S$, if $n_j$ is the number of products from category $c$ and subcategory $s$ then we generate a sample of $n_j$ observation from $\text{Gamma}(\bar\kappa_{c,s}/2,1/2)$ which will be used to fill the products table.
+For each $c\in C$ define $\kappa_c$ as the mean price of products in category $c$. Now, for each subcategory $s\in S_c$ let $\bar\kappa_{c,s}\sim\text{Gamma}(\kappa_c/20,1/20)$ be the mean price of products in subcategory $s$. In analog to the users and vendors tables, we define a \textit{preference} parameter $\tau\sim\text{Dirichlet}\left(1_{\sum_{c\in C}|S_c|}\right)$ to determine the number of products per subcategory with the vector $n\sim\text{Multinomial}(n_{\text{p}},\tau)$. Finally, for each $c\in C$ and $s\in S$, if $n_j$ is the number of products from category $c$ and subcategory $s$ then we generate a sample of $n_j$ observation from $\text{Gamma}(\bar\kappa_{c,s}/2,1/2)$ which will be used to fill the products table.
 
-Each products table row consists of a tuple $(\text{product ID, category, subcategory, price})$ where product ID's are randomly assigned without replacement from $\{1,\dots,n_{\text{p}}\}$.
+Each products table row consists of a tuple $(\text{product ID, category, subcategory, price})$ where product IDs are randomly assigned without replacement from $\{1,\dots,n_{\text{p}}\}$.
 
 Note that the selected gamma distributions have such form to ensure the price expected value is conserved per category after generating samples of such hierarchical structure.
 
@@ -45,7 +45,7 @@ Suppose that each vendor has a diversified stock of products on each category, b
 Hence, each stock table row consists of a tuple $(\text{vendor ID, product ID, available units})$.
 
 ### Orders
-In order to generate random valid orders for the store, lets define $(x_1,\dots,x_5)$ as a valid combination of a category, subcategory, gender, location and age respectively (i.e. that such combination exists in the generated data). For notation simplicity, define $\theta_0\in\mathbb{Z_+}^{\text{\# product ID's}}$ as a vector representation of the stock of all products in the store. In addition, let $I_c$ be the set of indices from $\theta$ that are associated to category $c$, and $I_{c,s}$ be the set of indices from $\theta$ that are associated to category $c$ and subcategory $s$.
+In order to generate random valid orders for the store, lets define $(x_1,\dots,x_5)$ as a valid combination of a category, subcategory, gender, location and age respectively (i.e. that such combination exists in the generated data). For notation simplicity, define $\theta_0\in\mathbb{Z_+}^{\text{Num. product IDs}}$ as a vector representation of the stock of all products in the store. In addition, let $I_c$ be the set of indices from $\theta$ that are associated to category $c$, and $I_{c,s}$ be the set of indices from $\theta$ that are associated to category $c$ and subcategory $s$.
 
 For each valid category $c$ and subcategory $s$ we rate its products, sold by all the non-zero stock vendors filtered by $c$ and $s$, by the following formula
 
@@ -55,7 +55,7 @@ The idea is that users will generally prefer to buy the cheapest product from th
 
 Therefore, if we sample $(x_1,\dots,x_5)$ from the joint distribution $p(x_1,\dots,x_5|\theta)$ then a random user from gender $x_3$ located at $x_4$ with $x_5$ years old will buy a product from category $x_1$ and subcategory $x_2$. Such product and its corresponding vendor will be selected as the ones that maximize its rating value. If the selected product is associated to the stock vector representation index $i$ then $\theta_{i} \leftarrow \theta_{i} - 1$ and the decision process may be repeated as many times as needed.
 
-Thus, each orders table row consists of a tuple $(\text{order ID, vendor ID, product ID, user ID})$  where order ID's are assigned sequentially from $1$ to $n_{\text{o}}$, the total number of orders.
+Thus, each orders table row consists of a tuple $(\text{order ID, vendor ID, product ID, user ID})$  where order IDs are assigned sequentially from $1$ to $n_{\text{o}}$, the total number of orders.
 
 ## Modeling the joint distribution
 To address the unknown joint probability distribution $p(x_1,\dots,x_5|\theta)$ we will factor it appropriately by applying the chain rule of probability as follows
@@ -84,7 +84,7 @@ $$p(x_5|x_4,x_3,\psi) = \frac{p(x_5|x_4,x_3)\psi(x_5,x_4,x_3)}{\sum_{a\in A_{x_3
 |----------------------|----------------------------------------------------------------------------|
 | $p(x_1)$             | $\text{Uniform}(C)$                                                        |
 | $p(x_2 \mid x_1)$    | $\text{Uniform}(S_{x_1})$                                                  |
-| $p(x_4 \mid x_3)$    | $\text{Dirichlet}(5 \cdot 1_{\text{\#} L})$                                       |
+| $p(x_4 \mid x_3)$    | $\text{Dirichlet}(5 \cdot 1_{|L|})$                                       |
 | $p(x_5 \mid x_4,x_3)$| $\text{Softmax}\left((\psi(a,x_4,x_3))_{a \in A_{x_3,x_4}}\right)$        |
 
 Therefore, the joint distribution is completely modeled by
