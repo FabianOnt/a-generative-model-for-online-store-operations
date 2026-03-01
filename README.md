@@ -17,11 +17,7 @@ A MySQL database is created to model the online store state and transactions, an
 
 Let $\mathcal{S}$ be a fictitious online store with $n_{\text{u}}$ users, $n_{\text{v}}$ vendors, and $n_{\text{p}}$ products. Each user and vendor is identified by ID, gender, age, and location. In addition, vendors are rated using a five-star system. Each product is identified by ID, price, and a classification in category and subcategory. Furthermore, each product type can be offered by several vendors in different quantities and at different costs, composing the store’s initial stock. Orders consist of a triplet: user ID, product ID, and vendor ID. They are conditioned on the current stock and the user’s demographics. The store’s stock is updated by selecting a vendor according to a decision process based on the product’s price distribution, vendor ratings, and a small amount of randomness, after which the selected vendor’s stock for that product is reduced by one unit.
 
-Let $C$ be the set of categories and for each $c\in C$ define $S_c$ as the set of subcategories from $c$. Let $L$ be the set of locations and $G$ the set of genders. We may say that the tuple 
-
-$$\left(C,\left\{S_c\right\}_{c\in C},L,G,n_{\text{u}},n_{\text{v}},n_{\text{p}}\right)$$
-
-represents the hyper-parameters of $\mathcal{S}$, and when implemented must be user-provided.
+Let $C$ be the set of categories and for each $c\in C$ define $S_c$ as the set of subcategories from $c$. Let $L$ be the set of locations and $G$ the set of genders. We may say that the tuple $`\left(C,\left\{S_c\right\}_{c\in C},L,G,n_{\text{u}},n_{\text{v}},n_{\text{p}}\right)`$ represents the hyper-parameters of $\mathcal{S}$, and when implemented must be user-provided.
     
 ## Generating the data
 
@@ -86,10 +82,10 @@ $$p(x_5|x_4,x_3,\psi) = \frac{p(x_5|x_4,x_3)\psi(x_5,x_4,x_3)}{\sum_{a\in A_{x_3
 
 | prior                | expression                                                                 |
 |----------------------|----------------------------------------------------------------------------|
-| $p(x_1)$             | $$\mathrm{Uniform}(C)$$                                                    |
-| $p(x_2 \mid x_1)$    | $$\mathrm{Uniform}(S_{x_1})$$                                              |
-| $p(x_4 \mid x_3)$    | $$\mathrm{Dirichlet}(5 \cdot 1_{\lvert L\rvert})$$                         |
-| $p(x_5 \mid x_4,x_3)$| $$\mathrm{Softmax}\!\left(\psi(a,x_4,x_3)\right)_{a \in A_{x_3,x_4}}$$     |
+| $p(x_1)$             | $`\mathrm{Uniform}(C)`$                                                    |
+| $p(x_2 \mid x_1)$    | $`\mathrm{Uniform}(S_{x_1})`$                                              |
+| $p(x_4 \mid x_3)$    | $`\mathrm{Dirichlet}(5 \cdot 1_{\lvert L\rvert})`$                         |
+| $p(x_5 \mid x_4,x_3)$| $`\mathrm{Softmax}\!\left(\psi(a,x_4,x_3)\right)_{a \in A_{x_3,x_4}}`$     |
 
 Therefore, the joint distribution is completely modeled by
 
