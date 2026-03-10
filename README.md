@@ -4,6 +4,8 @@ Operations from a fictitious online store are simulated with data about users, v
 
 A MySQL database is created to model the online store state and transactions, and a simple PowerBI dashboard is created synchronized to some views associated to the databse to visualize relevant insights about the clients, products and transactions.
 
+<img src="assets/overview.png" width="800" />
+
 ## Index
 1. [Introduction](#introduction) 
 2. [Generating the data](#generating-the-data) 
