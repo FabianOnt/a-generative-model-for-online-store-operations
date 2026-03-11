@@ -1,5 +1,10 @@
 # A Generative Model For Online Store Operations
 
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=white)
+![NumPy](https://img.shields.io/badge/NumPy-013243?style=flat&logo=numpy&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=mysql&logoColor=white)
+![Power BI](https://img.shields.io/badge/Power_BI-F2C811?style=flat&logo=powerbi&logoColor=black)
+
 Operations from a fictitious online store are simulated with data about users, vendors, products, stock and orders, which are randomly generated under several parametric distributions. In particular, orders are created by random sampling from a stock-conditioned probabilistic model, expressed by the chain rule of probability, that is used to determine the user, product and vendor that are involved in the transaction. After this, the stock is updated and the process is repeated as many times is needed. Hence, the online store dynamics are modeled by a complex Markov Chain on the stock values.
 
 A MySQL database is created to model the online store state and transactions, and a simple PowerBI dashboard is created synchronized to some views associated to the databse to visualize relevant insights about the clients, products and transactions.
@@ -35,7 +40,7 @@ The vendors table is generated with exactly the same procedure than the users ta
 Each vendors table row consists of a tuple $(\text{vendor ID, location, gender, age, stars})$ where vendor IDs are randomly assigned without replacement from $\{1,\dots,n_{\text{v}}\}$.
 
 ### Products
-For each $c\in C$ define $\kappa_c$ as the mean price of products in category $c$. Now, for each subcategory $s\in S_c$ let $\bar\kappa_{c,s}\sim\text{Gamma}(\kappa_c/20,1/20)$ be the mean price of products in subcategory $s$. In analog to the users and vendors tables, we define a *preference* parameter $\tau\sim\text{Dirichlet}\left(1_{\sum_{c\in C}|S_c|}\right)$ to determine the number of products per subcategory with the vector $n\sim\text{Multinomial}(n_{\text{p}},\tau)$. Finally, for each $c\in C$ and $s\in S$, if $n_j$ is the number of products from category $c$ and subcategory $s$ then we generate a sample of $n_j$ observation from $\text{Gamma}(\bar\kappa_{c,s}/2,1/2)$ which will be used to fill the products table.
+For each $c\in C$ define $\kappa_c$ as the mean price of products in category $c$. Now, for each subcategory $s\in S_c$ let $`\bar\kappa_{c,s}\sim\text{Gamma}(\frac{\kappa_c}{20},\frac{1}{20})`$ be the mean price of products in subcategory $s$. In analog to the users and vendors tables, we define a *preference* parameter $`\tau\sim\text{Dirichlet}\left(1_{\sum_{c\in C}|S_c|}\right)`$ to determine the number of products per subcategory with the vector $`n\sim\text{Multinomial}(n_{\text{p}},\tau)`$. Finally, for each $c\in C$ and $s\in S$, if $n_j$ is the number of products from category $c$ and subcategory $s$ then we generate a sample of $n_j$ observation from $`\text{Gamma}(\frac{\bar\kappa_{c,s}}{2},\frac{1}{2})`$ which will be used to fill the products table.
 
 Each products table row consists of a tuple $(\text{product ID, category, subcategory, price})$ where product IDs are randomly assigned without replacement from $\{1,\dots,n_{\text{p}}\}$.
 
