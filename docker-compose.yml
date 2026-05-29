@@ -1,0 +1,53 @@
+version: "3.9"
+
+services:
+
+  python-dev:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+
+    container_name: python-dev
+
+    volumes:
+      - .:/workspace
+
+    working_dir: /workspace
+
+    tty: true
+
+    depends_on:
+      - mysql
+
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: online_store
+      MYSQL_USER: store
+      MYSQL_PASSWORD: storepassword
+
+    ports:
+      - "8888:8888"
+
+  mysql:
+    image: mysql:8.4
+
+    container_name: mysql-server
+
+    restart: unless-stopped
+
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: online_store
+      MYSQL_USER: store
+      MYSQL_PASSWORD: storepassword
+
+    ports:
+      - "3306:3306"
+
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql/init:/docker-entrypoint-initdb.d
+
+volumes:
+  mysql_data:
