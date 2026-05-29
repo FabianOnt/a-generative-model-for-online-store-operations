@@ -4,6 +4,7 @@
 ![NumPy](https://img.shields.io/badge/NumPy-013243?style=flat&logo=numpy&logoColor=white)
 ![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=mysql&logoColor=white)
 ![Power BI](https://img.shields.io/badge/Power_BI-F2C811?style=flat&logo=powerbi&logoColor=black)
+![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white)
 
 Operations from a fictitious online store are simulated with data about users, vendors, products, stock and orders, which are randomly generated under several parametric distributions. In particular, orders are created by random sampling from a stock-conditioned probabilistic model, expressed by the chain rule of probability, that is used to determine the user, product and vendor that are involved in the transaction. After this, the stock is updated and the process is repeated as many times is needed. Hence, the online store dynamics are modeled by a complex Markov Chain on the stock values.
 
